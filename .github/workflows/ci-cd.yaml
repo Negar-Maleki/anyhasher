@@ -173,7 +173,34 @@ jobs:
   compile:
     runs-on: ubuntu-latest
     steps:
+      - name: Cache Node Modules
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: node-modules-cache
+
       - name: Checkout
         uses: actions/checkout@v1
       - run: cd backend && npm i
       - run: cd backend && npm run build
+
+      - name: Setup Node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Install Deps
+        run: cd backend && npm i
+
+      - name: Build
+        run: cd backend && npm run build
+
+      - name: Generate Artifact
+        run: cd backend/build && zip -r artifact.zip ./ -x '*.git*'
+
+      - name: Store Artifact
+        uses: actions/upload-artiface@v2
+        with:
+          name: backend-artifact
+          path: backend/build/artifact.zip
