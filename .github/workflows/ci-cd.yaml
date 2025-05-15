@@ -196,7 +196,7 @@ jobs:
       - name: Build
         run: cd backend && npm run build
 
-lint:
+  lint:
   name: 🧼 Ensure Code Style
   needs: build
   runs-on: ubuntu-latest
