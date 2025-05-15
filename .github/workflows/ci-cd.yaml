@@ -196,27 +196,27 @@ jobs:
       - name: Build
         run: cd backend && npm run build
 
-  lint:
-    name: 🧼 Ensure Code Style
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-      - run: actions/checkout@v3
+lint:
+  name: 🧼 Ensure Code Style
+  needs: build
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      - name: Cache Node Modules
-        id: node
-        run: actions/cache@v3
-        with:
-          path: node_modules
-          key: node-modules-cache
+    - name: Cache Node Modules
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: backend/node_modules
+        key: node-modules-cache
 
-      - name: Install deps
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: cd backend && npm i
+    - name: Install deps
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: cd backend && npm i
 
-      - name: 😂 Lint code
-        run: cd backend && npm run lint
+    - name: 😂 Lint code
+      run: cd backend && npm run lint
 
   # test:
   #   name: 🧪 Run Unit Tests
