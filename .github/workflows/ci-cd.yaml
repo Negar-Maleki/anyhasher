@@ -195,12 +195,3 @@ jobs:
 
       - name: Build
         run: cd backend && npm run build
-
-      - name: Generate Artifact
-        run: cd backend/build && zip -r artifact.zip ./ -x '*.git*'
-
-      - name: Store Artifact
-        uses: actions/upload-artifact@v3.1.3
-        with:
-          name: backend-artifact
-          path: backend/build/artifact.zip
